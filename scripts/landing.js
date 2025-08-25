@@ -26,7 +26,7 @@ const bgMusic = document.getElementById("bgMusic");
     window.addEventListener("resize", resize);
 
     const img = new Image();
-    img.src = "./landing.png";
+    img.src = "../images/landing-starry-sky.png";
     img.onload = () => {
       resize();
       startAnimations();
@@ -110,6 +110,7 @@ const bgMusic = document.getElementById("bgMusic");
     function handleClick(key) {
       if (key === "computer") {
         document.getElementById("desktopOverlay").style.display = "block";
+        
       } else if (key === "cat") {
             const meow = document.getElementById("meowSound");
             meow.currentTime = 0;

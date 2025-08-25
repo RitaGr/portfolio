@@ -6,19 +6,11 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <canvas id="landing"></canvas>
-  <div id="desktopOverlay">
-    <h2>My Desktop</h2>
-    <p>Welcome to my portfolio!</p>
-    <div class="folder">📁 Projects</div>
-    <div class="folder">📁 Skills</div>
-    <div class="folder">📁 About Me</div>
-    <button onclick="document.getElementById('desktopOverlay').style.display='none'">
-      Close
-    </button>
-  </div>
+    <canvas id="landing"></canvas>
+    <canvas id="desktopWindow"></canvas>
     <audio id="meowSound" src="./sigma-meow.mp3" preload="auto"></audio>
     <audio id="bgMusic" src="./background-music.mp3" loop preload="auto"></audio>
-    <script src="script.js"></script>
+    <script src="./scripts/desktopWindow.js"></script>
+    <script src="./scripts/landing.js"></script>
 </body>
 </html>
