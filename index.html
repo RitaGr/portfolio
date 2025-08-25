@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pixel Desk Landing Page</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="landing"></canvas>
+  <div id="desktopOverlay">
+    <h2>My Desktop</h2>
+    <p>Welcome to my portfolio!</p>
+    <div class="folder">📁 Projects</div>
+    <div class="folder">📁 Skills</div>
+    <div class="folder">📁 About Me</div>
+    <button onclick="document.getElementById('desktopOverlay').style.display='none'">
+      Close
+    </button>
+  </div>
+    <audio id="meowSound" src="./sigma-meow.mp3" preload="auto"></audio>
+    <audio id="bgMusic" src="./background-music.mp3" loop preload="auto"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
