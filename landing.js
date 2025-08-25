@@ -17,7 +17,7 @@ let mouse = { x: 0, y: 0 };
 
 // Load landing image
 const img = new Image();
-img.src = "./landing-starry-sky.png";
+img.src = "./landingpic.png";
 
 img.onload = () => {
   resize();
