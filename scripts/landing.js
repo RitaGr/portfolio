@@ -7,6 +7,13 @@ const bgMusic = document.getElementById("bgMusic");
         }
     });
 
+    const img = new Image();
+    img.src = "../images/landing-starry-sky.png";
+    img.onload = () => {
+      resize();
+      startAnimations();
+    };
+
     let catMouthOpen = false;
     const canvas = document.getElementById("landing");
     const ctx = canvas.getContext("2d");
@@ -24,13 +31,6 @@ const bgMusic = document.getElementById("bgMusic");
       drawScene();
     }
     window.addEventListener("resize", resize);
-
-    const img = new Image();
-    img.src = "../images/landing-starry-sky.png";
-    img.onload = () => {
-      resize();
-      startAnimations();
-    };
 
     let pixelArt = {};
     function drawScene() {
