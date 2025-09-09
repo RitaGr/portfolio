@@ -25,3 +25,8 @@ body {
       border-radius: 5px;
       cursor: pointer;
     }
+#catPics {
+  display: none;
+  position: absolute;
+  z-index: 110;
+}

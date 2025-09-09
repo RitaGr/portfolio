@@ -1,105 +1,178 @@
 // desktopWindow.js
+const clickSound = new Audio('mouse-click.mp3');
+clickSound.preload = 'auto';
 
-// Create overlay div
-const desktopOverlay = document.createElement('div');
-desktopOverlay.id = 'desktopOverlay';
-document.body.appendChild(desktopOverlay);
+let selectedFolder = null;
+const trashSound = new Audio('trash-rustle.mp3');
+trashSound.preload = 'auto';
 
-// Close button
-const closeBtn = document.createElement('button');
-closeBtn.innerText = '×';
-closeBtn.style.position = 'absolute';
-closeBtn.style.top = '10px';
-closeBtn.style.right = '50px';
-closeBtn.style.fontSize = '24px';
-closeBtn.style.background = 'transparent';
-closeBtn.style.color = 'white';
-closeBtn.style.border = 'none';
-closeBtn.style.cursor = 'pointer';
-closeBtn.addEventListener('click', () => {
-    desktopOverlay.style.display = 'none';
-});
-desktopOverlay.appendChild(closeBtn);
+const pixelCanvas = document.getElementById("pixelDesktop");
+const pixelCtx = pixelCanvas.getContext("2d");
+pixelCtx.imageSmoothingEnabled = false;
 
-// Sections to showcase
-const sections = {
-    "Projects": [
-        { name: "City Bloxx Solver", description: "Algorithm to maximize 5x5 grid points." },
-        { name: "Physics Solver", description: "Python tool to solve mechanics problems." },
-        { name: "Pixel Desk", description: "Interactive pixel landing page project." }
-    ],
-    "Education": [
-        { name: "B.Sc. Mathematics", description: "Ongoing degree." }
-    ],
-    "Work Experience": [
-        { name: "Retail Assistant", description: "Worked in store for 2 years." },
-        { name: "Freelance Developer", description: "Small web projects." }
-    ],
-    "Personal Projects": [
-        { name: "Cat Animation", description: "Interactive cat animation." }
-    ]
-};
+const desktopImg = new Image();
+desktopImg.src = "../desktop.png";
 
-// Function to create folder icons
-function createFolders() {
-    desktopOverlay.innerHTML = ''; // clear overlay
-    desktopOverlay.appendChild(closeBtn); // keep close button
+const projectsImg = new Image();
+projectsImg.src = "../projects-window.png";
 
-    const folderContainer = document.createElement('div');
-    folderContainer.style.display = 'flex';
-    folderContainer.style.flexWrap = 'wrap';
-    folderContainer.style.marginTop = '50px';
-    
-    for (const section in sections) {
-        const folder = document.createElement('div');
-        folder.className = 'folder';
-        folder.innerText = section;
-        folder.addEventListener('click', () => openFolder(section));
-        folderContainer.appendChild(folder);
+const catPicsBackgroundImg = new Image();
+catPicsBackgroundImg.src = "../projects-window.png"; 
+
+const catPics = [
+  new Image(),
+  new Image(),
+  new Image(),
+];
+catPics[0].src = '../catpics/cat1.jpg';
+catPics[1].src = '../catpics/cat2.jpg';
+catPics[2].src = '../catpics/cat3.jpg';
+
+const offsetX = -400;
+const offsetY = 350;
+
+const folderZones = [
+  { name: "Projects", x1: 1095, y1: 370, x2: 1200, y2: 455 },
+  { name: "Personal", x1: 1225, y1: 370, x2: 1333, y2: 455 },
+  { name: "Cat Pics", x1: 1360, y1: 370, x2: 1450, y2: 455 },
+];
+
+const closeZone = { x1: 1444, y1: 43, x2: 1492, y2: 81 };
+const trashZone = { x1: 1391, y1: 609, x2: 1452, y2: 682 };
+
+window.currentWindow = "desktop"; // глобальная переменная состояния окна
+
+function showPixelDesktop() {
+  window.currentWindow = "desktop";
+
+  pixelCanvas.width = desktopImg.width / 2;
+  pixelCanvas.height = desktopImg.height / 2;
+
+  pixelCanvas.style.left = `${(window.innerWidth - pixelCanvas.width) / 2}px`;
+  pixelCanvas.style.top = `${(window.innerHeight - pixelCanvas.height) / 2 + offsetY}px`;
+  pixelCanvas.style.display = "block";
+
+  drawDesktopWindow();
+}
+
+function drawDesktopWindow() {
+  pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
+  pixelCtx.drawImage(desktopImg, 0, 0, pixelCanvas.width, pixelCanvas.height);
+}
+
+function showProjectsWindow() {
+  window.currentWindow = "projects";
+
+  pixelCanvas.width = desktopImg.width / 2;
+  pixelCanvas.height = desktopImg.height / 2;
+
+  pixelCanvas.style.left = `${(window.innerWidth - pixelCanvas.width) / 2}px`;
+  pixelCanvas.style.top = `${(window.innerHeight - pixelCanvas.height) / 2 + offsetY}px`;
+  pixelCanvas.style.display = "block";
+
+  drawProjectsWindow();
+}
+
+function drawProjectsWindow() {
+  pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
+  pixelCtx.drawImage(projectsImg, 0, 0, pixelCanvas.width, pixelCanvas.height);
+}
+
+// Окно с эффектом и картинками котиков
+function showCatPicsWindow() {
+  window.currentWindow = "catPics";
+
+  pixelCanvas.width = desktopImg.width / 2;
+  pixelCanvas.height = desktopImg.width / 2;
+
+  pixelCanvas.style.left = `${(window.innerWidth - pixelCanvas.width) / 2 }px`;
+  pixelCanvas.style.top = `${(window.innerHeight - pixelCanvas.height) / 2 + offsetY}px`;
+  pixelCanvas.style.display = "block";
+
+  drawCatPics();
+}
+
+function drawCatPics() {
+  pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
+
+  // Рисуем фон (как в окне проектов)
+  pixelCtx.drawImage(catPicsBackgroundImg, 0, 0, pixelCanvas.width, pixelCanvas.height);
+
+  // Размер и позиции картинок котиков
+  const imgWidth = 150;
+  const imgHeight = 150;
+  const spacing = 20;
+  let x = 50;
+  const y = 100;
+
+  catPics.forEach(img => {
+    if (img.complete) {
+      pixelCtx.drawImage(img, x, y, imgWidth, imgHeight);
+      x += imgWidth + spacing;
+    } else {
+      img.onload = () => drawCatPics();
     }
-    
-    desktopOverlay.appendChild(folderContainer);
+  });
 }
 
-// Open folder view
-function openFolder(section) {
-    desktopOverlay.innerHTML = ''; // clear overlay
-    desktopOverlay.appendChild(closeBtn); // keep close button
 
-    const backBtn = document.createElement('button');
-    backBtn.innerText = '← Back';
-    backBtn.style.position = 'absolute';
-    backBtn.style.top = '10px';
-    backBtn.style.left = '20px';
-    backBtn.style.fontSize = '18px';
-    backBtn.style.background = 'transparent';
-    backBtn.style.color = 'white';
-    backBtn.style.border = 'none';
-    backBtn.style.cursor = 'pointer';
-    backBtn.addEventListener('click', createFolders);
-    desktopOverlay.appendChild(backBtn);
 
-    const itemsContainer = document.createElement('div');
-    itemsContainer.style.marginTop = '50px';
-    itemsContainer.style.display = 'flex';
-    itemsContainer.style.flexDirection = 'column';
-    itemsContainer.style.gap = '15px';
+pixelCanvas.addEventListener("click", (e) => {
+  const rect = pixelCanvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
 
-    sections[section].forEach(item => {
-        const itemDiv = document.createElement('div');
-        itemDiv.style.padding = '15px';
-        itemDiv.style.background = 'rgba(255,255,255,0.1)';
-        itemDiv.style.borderRadius = '5px';
-        itemDiv.style.cursor = 'pointer';
-        itemDiv.innerHTML = `<strong>${item.name}</strong><br><small>${item.description}</small>`;
-        itemDiv.addEventListener('click', () => {
-            alert(`You clicked "${item.name}"! More details could go here.`);
-        });
-        itemsContainer.appendChild(itemDiv);
-    });
+  // Закрыть окно или вернуть на рабочий стол
+  if (mx > closeZone.x1 && mx < closeZone.x2 && my > closeZone.y1 && my < closeZone.y2) {
+    clickSound.currentTime = 0;
+    clickSound.play();
 
-    desktopOverlay.appendChild(itemsContainer);
-}
+    if (window.currentWindow === "projects") {
+      showPixelDesktop();
+      selectedFolder = null;
+    } else if (window.currentWindow === "catPics") {
+      showPixelDesktop();
+      selectedFolder = null;
+    }else if (window.currentWindow === "desktop") {
+      pixelCanvas.style.display = "none";
+      selectedFolder = null;
+      // Можно добавить showMainScreen(), если нужно
+    }
+    return;
+  }
 
-// Initialize folders
-createFolders();
+  if (window.currentWindow === "desktop") {
+    for (const folder of folderZones) {
+      if (mx > folder.x1 && mx < folder.x2 && my > folder.y1 && my < folder.y2) {
+        clickSound.currentTime = 0;
+        clickSound.play();
+
+        selectedFolder = folder.name;
+        drawDesktopWindow();
+
+        if (folder.name === "Projects") {
+          showProjectsWindow();
+          selectedFolder = null;
+        } else if (folder.name === "Cat Pics") {
+          if (typeof window.showCatPicsWindow === "function") {
+            window.showCatPicsWindow();
+          }else {
+            console.error('showCatPicsWindow функция не найдена');
+            }
+          selectedFolder = null;
+        }
+        return;
+      }
+    }
+
+    if (mx > trashZone.x1 && mx < trashZone.x2 && my > trashZone.y1 && my < trashZone.y2) {
+      trashSound.currentTime = 0;
+      trashSound.play();
+      return;
+    }
+  }
+  // Возможна логика для проекта или других окон
+});
+
+// экспорт функции для внешнего вызова
+window.showPixelDesktop = showPixelDesktop;
