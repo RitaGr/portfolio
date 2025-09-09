@@ -24,9 +24,9 @@ const catPics = [
   new Image(),
   new Image(),
 ];
-catPics[0].src = './catpics/cat1.jpg';
-catPics[1].src = './catpics/cat2.jpg';
-catPics[2].src = './catpics/cat3.jpg';
+catPics[0].src = 'catpics/cat1.jpg';
+catPics[1].src = 'catpics/cat2.jpg';
+catPics[2].src = 'catpics/cat3.jpg';
 
 const offsetX = -400;
 const offsetY = 350;
@@ -40,7 +40,7 @@ const folderZones = [
 const closeZone = { x1: 1444, y1: 43, x2: 1492, y2: 81 };
 const trashZone = { x1: 1391, y1: 609, x2: 1452, y2: 682 };
 
-window.currentWindow = "desktop"; // глобальная переменная состояния окна
+window.currentWindow = "desktop";
 
 function showPixelDesktop() {
   window.currentWindow = "desktop";
@@ -78,7 +78,7 @@ function drawProjectsWindow() {
   pixelCtx.drawImage(projectsImg, 0, 0, pixelCanvas.width, pixelCanvas.height);
 }
 
-// Окно с эффектом и картинками котиков
+
 function showCatPicsWindow() {
   window.currentWindow = "catPics";
 
@@ -95,10 +95,8 @@ function showCatPicsWindow() {
 function drawCatPics() {
   pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
 
-  // Рисуем фон (как в окне проектов)
   pixelCtx.drawImage(catPicsBackgroundImg, 0, 0, pixelCanvas.width, pixelCanvas.height);
 
-  // Размер и позиции картинок котиков
   const imgWidth = 150;
   const imgHeight = 150;
   const spacing = 20;
@@ -122,7 +120,7 @@ pixelCanvas.addEventListener("click", (e) => {
   const mx = e.clientX - rect.left;
   const my = e.clientY - rect.top;
 
-  // Закрыть окно или вернуть на рабочий стол
+
   if (mx > closeZone.x1 && mx < closeZone.x2 && my > closeZone.y1 && my < closeZone.y2) {
     clickSound.currentTime = 0;
     clickSound.play();
@@ -136,7 +134,6 @@ pixelCanvas.addEventListener("click", (e) => {
     }else if (window.currentWindow === "desktop") {
       pixelCanvas.style.display = "none";
       selectedFolder = null;
-      // Можно добавить showMainScreen(), если нужно
     }
     return;
   }
@@ -171,8 +168,7 @@ pixelCanvas.addEventListener("click", (e) => {
       return;
     }
   }
-  // Возможна логика для проекта или других окон
+
 });
 
-// экспорт функции для внешнего вызова
 window.showPixelDesktop = showPixelDesktop;
