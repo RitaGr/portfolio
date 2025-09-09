@@ -120,7 +120,8 @@ canvas.addEventListener("click", (e) => {
 
 function handleClick(key) {
   if (key === "computer") {
-    document.getElementById("desktopOverlay").style.display = "block";
+    showPixelDesktop(); // Просто вызвать эту функцию
+
   } else if (key === "cat") {
     const meow = document.getElementById("meowSound");
     meow.currentTime = 0;
