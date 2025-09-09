@@ -7,16 +7,16 @@ const offsetX = -400;
 const offsetY = 350;
 
 const desktopImg = new Image();
-desktopImg.src = "../projects-window.png";
+desktopImg.src = "projects-window.png";
 
 const catPics = [
   new Image(),
   new Image(),
   new Image(),
 ];
-catPics[0].src = '../catpics/cat1.jpg';
-catPics[1].src = '../catpics/cat2.jpg';
-catPics[2].src = '../catpics/cat3.jpg';
+catPics[0].src = 'catpics/cat1.jpg';
+catPics[1].src = 'catpics/cat2.jpg';
+catPics[2].src = 'catpics/cat3.jpg';
 
 // не определяем здесь currentWindow, используем глобальную
 

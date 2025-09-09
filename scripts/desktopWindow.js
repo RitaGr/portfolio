@@ -11,22 +11,22 @@ const pixelCtx = pixelCanvas.getContext("2d");
 pixelCtx.imageSmoothingEnabled = false;
 
 const desktopImg = new Image();
-desktopImg.src = "../desktop.png";
+desktopImg.src = "desktop.png";
 
 const projectsImg = new Image();
-projectsImg.src = "../projects-window.png";
+projectsImg.src = "projects-window.png";
 
 const catPicsBackgroundImg = new Image();
-catPicsBackgroundImg.src = "../projects-window.png"; 
+catPicsBackgroundImg.src = "projects-window.png"; 
 
 const catPics = [
   new Image(),
   new Image(),
   new Image(),
 ];
-catPics[0].src = '../catpics/cat1.jpg';
-catPics[1].src = '../catpics/cat2.jpg';
-catPics[2].src = '../catpics/cat3.jpg';
+catPics[0].src = './catpics/cat1.jpg';
+catPics[1].src = './catpics/cat2.jpg';
+catPics[2].src = './catpics/cat3.jpg';
 
 const offsetX = -400;
 const offsetY = 350;
